@@ -18,6 +18,14 @@ public class CustomerService {
     }
 
 
+    /**
+     * Register a new customer.
+     *
+     * @param customer the customer to be registered.
+     * @return the registered customer.
+     * @throws IllegalArgumentException if the email is already registered.
+     */
+
     public Customer registerCustomer(Customer customer) {
         if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email is already registered");

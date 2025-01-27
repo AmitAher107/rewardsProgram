@@ -19,15 +19,18 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    /*
+        Api for registration
+     */
     @PostMapping("/register")
     public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer customer) {
         return ResponseEntity.ok(customerService.registerCustomer(customer));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginCustomer(@RequestParam String email, @RequestParam String password) {
-        return ResponseEntity.ok(customerService.loginCustomer(email, password));
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> loginCustomer(@RequestParam String email, @RequestParam String password) {
+//        return ResponseEntity.ok(customerService.loginCustomer(email, password));
+//    }
 
 //    @PostMapping("/logoff")
 //    public ResponseEntity<Void> logoffCustomer(@RequestParam Long customerId) {

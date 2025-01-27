@@ -8,6 +8,7 @@ import com.infosys.rewardsProgram.repo.RewardPointsRepository;
 import com.infosys.rewardsProgram.repo.TransactionRepository;
 import jakarta.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.query.JSqlParserUtils;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,18 @@ public class RewardService {
 
     public TransactionRepository transactionRepository;
     public RewardPointsRepository rewardPointsRepository;
+
+    @Value("${reward.first}")
+    private int firstReward;
+
+    @Value("${reward.second}")
+    private int secondReward;
+
+    @Value("${reward.firstMultiplier}")
+    private int firstMultiplier;
+
+    @Value("${reward.secondMultiplier}")
+    private int secondMultiplier;
 
     public RewardService(TransactionRepository transactionRepository, RewardPointsRepository rewardPointsRepository) {
         this.transactionRepository = transactionRepository;
@@ -71,18 +84,19 @@ public class RewardService {
      */
 
     public int calculatePoints(double amount) {
-        int points = 0;
-
-        if (amount > 100) {
-            points += (amount - 100) * 2;
-            amount = 100;
+        if (amount < 0) {
+            throw new IllegalArgumentException("Transaction amount cannot be negative");
         }
+        // less then or equal to 50$
+        if (amount <= firstReward)
+            return 0;
 
-        if (amount > 50) {
-            points += (amount - 50);
-        }
-
-        return points;
+        // less then or equal to 100$
+        if (amount <= secondReward)
+            return (int) ((amount - firstReward)*firstMultiplier);
+        // greater then then 100$
+        return (int) ((amount - secondReward) * secondMultiplier
+                        + (secondReward - secondReward));
     }
 
 

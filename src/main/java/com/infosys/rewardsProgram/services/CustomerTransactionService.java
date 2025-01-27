@@ -24,8 +24,12 @@ public class CustomerTransactionService {
         this.customerRepository = customerRepository;
     }
 
-    /*
-     * Get all transactions for a customer
+    /**
+     * Get all transactions for a customer.
+     *
+     * @param customerId the ID of the customer whose transactions are to be retrieved.
+     * @return a list of transactions for the specified customer.
+     * @throws IllegalArgumentException if no transactions are found for the customer.
      */
 
     public List<Transaction> getTransactions(Long customerId) {
@@ -36,8 +40,12 @@ public class CustomerTransactionService {
         return byCustomerId;
     }
 
-    /*
-     * Add a transaction for a customer
+    /**
+     * Add a transaction for a customer.
+     *
+     * @param transaction the transaction to be added.
+     * @return the added transaction.
+     * @throws IllegalArgumentException if the customer is not found.
      */
     public Transaction addTransaction(Transaction transaction) {
         customerRepository.findById(transaction.getCustomerId())
@@ -45,8 +53,13 @@ public class CustomerTransactionService {
         return transactionRepository.save(transaction);
     }
 
-    /*
-     * Edit a transaction for a customer
+    /**
+     * Edit a transaction for a customer.
+     *
+     * @param id the ID of the transaction to be edited.
+     * @param transaction the transaction details to update.
+     * @return the edited transaction.
+     * @throws IllegalArgumentException if the customer or transaction is not found.
      */
 
     public Transaction editTransaction(Long id, Transaction transaction) {
@@ -59,8 +72,13 @@ public class CustomerTransactionService {
         return transactionRepository.save(existingTransaction);
     }
 
-    /*
-     * Delete a transaction for a customer
+    /**
+     * Delete a transaction for a customer.
+     *
+     * @param customerId the ID of the customer whose transaction is to be deleted.
+     * @param id the ID of the transaction to be deleted.
+     * @return a confirmation message indicating successful deletion.
+     * @throws IllegalArgumentException if the customer or transaction is not found.
      */
 
     public String deleteTransaction(Long customerId, Long id) {
